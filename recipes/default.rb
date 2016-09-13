@@ -17,9 +17,13 @@
 # limitations under the License.
 #
 
+ENV['DEBIAN_FRONTEND'] = 'noninteractive'
 package "sudo" do
+  options '--force-yes'
+  options '-o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"'
   action :upgrade
 end
+ENV['DEBIAN_FRONTEND'] = nil
 
 if node['authorization']['sudo']['include_sudoers_d']
   directory "/etc/sudoers.d" do
